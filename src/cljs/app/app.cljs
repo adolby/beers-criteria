@@ -1,5 +1,5 @@
 (ns app.app
-  (:require [cljs.core.async :as async :refer [<!]]
+  (:require [cljs.core.async :as async :refer [chan <! >!]]
             [reagent.core :as reagent]
             [kioo.reagent :as kioo]
             [cljs-http.client :as http])
@@ -11,6 +11,10 @@
 
 ; Application state
 (def query-results (reagent/atom {}))
+
+(defn query [path]
+  (let [in (chan)]
+    ))
 
 (defn get-results [in]
   (let [out (chan)]
@@ -24,7 +28,7 @@
       (while true
         (>! out {{{hits-vector :hits} :hits} :body} (<! in))))))
 
-(defn )
+;(defn )
 
 (defn update-results-state [in]
   (go
@@ -32,7 +36,7 @@
       (swap! @query-results (<! in)))))
 
 ; Process pipeline
-(def query-chan (chan))
+
 (def get-results-out (get-results query-chan))
 (def extract-hits-out (extract-hits get-results-out))
 (update-results-state extract-hits-out)
@@ -44,14 +48,14 @@
 (defsnippet result-card "templates/results.html" [:.card] [result-map]
   {[:.list-column] (kioo/content [:li
                                    [:ul {:class "list-row"}
-                                     (map result-data {:_source} result-map)]])})
+                                     (map result-data (get result-map :_source))]])})
 
 (deftemplate result-cards "templates/results.html" []
   {[:.card] (map result-card @query-results)})
 
 (deftemplate page "index.html" []
-  {[:.search-field] (kioo/listen :on-change #(>!! query-chan .-value))}
-  {[:.results] (result-cards)})
+  {[:.search-field] (kioo/listen :on-change #(>!! query-chan .-value))
+   [:.results] (kioo/content (result-cards))})
 
 (defn init []
   (reagent/render-component [page] (.-body js/document)))
@@ -60,8 +64,7 @@
   ;       terms "cardiovascular"]
   ;   (execute-query query-url terms))
 
-
   ; (let [{drugs :drugs rationale :rationale recommendation :recommendation
-  ;       quality-of-evidence :quality-of-evidence
-  ;       strength-of-recommendation :strength-of-recommendation
-  ;       evidence :evidence}]
+  ;        quality-of-evidence :quality-of-evidence
+  ;        strength-of-recommendation :strength-of-recommendation
+  ;        evidence :evidence}]
