@@ -6,33 +6,62 @@
   (:require-macros [kioo.reagent :refer [defsnippet deftemplate]]
                    [cljs.core.async.macros :refer [go]]))
 
+; ElasticSearch API URL
+(def query-url "http://168.235.155.245/beers/2015/_search")
+
+; Application state
 (def query-results (reagent/atom {}))
 
-; Get JSON search result data
-(defn download-json [json-url terms]
+(defn get-results [in]
+  (let [out (chan)]
+    (go
+      (while true
+        (>! out (<! (http/get query-url {:query-params {"q" (<! in)}})))))))
+
+(defn extract-hits [in]
+  (let [out (chan)]
+    (go
+      (while true
+        (>! out {{{hits-vector :hits} :hits} :body} (<! in))))))
+
+(defn )
+
+(defn update-results-state [in]
   (go
-    (let [{{{hits-vector :hits} :hits} :body} (<! (http/get json-url {:query-params {"q" terms}}))]
-      (swap! query-results hits-vector)
-      (prn query-results))))
+    (while true
+      (swap! @query-results (<! in)))))
+
+; Process pipeline
+(def query-chan (chan))
+(def get-results-out (get-results query-chan))
+(def extract-hits-out (extract-hits get-results-out))
+(update-results-state extract-hits-out)
 
 ; Templating
-; (defn sub-map [amap keyseq]
-;   (reduce #(assoc %1 %2 ())))
+(defsnippet result-data "templates/results.html" [:.list-row] [result-element]
+  {[:list-row] (kioo/content [:li (first result-element)] [:li (second result-element)])})
 
-(defsnippet result "templates/results.html" [:.card] [result-map]
+(defsnippet result-card "templates/results.html" [:.card] [result-map]
+  {[:.list-column] (kioo/content [:li
+                                   [:ul {:class "list-row"}
+                                     (map result-data {:_source} result-map)]])})
+
+(deftemplate result-cards "templates/results.html" []
+  {[:.card] (map result-card @query-results)})
+
+(deftemplate page "index.html" []
+  {[:.search-field] (kioo/listen :on-change #(>!! query-chan .-value))}
+  {[:.results] (result-cards)})
+
+(defn init []
+  (reagent/render-component [page] (.-body js/document)))
+
+  ; (let [query-url "http://168.235.155.245/beers/2015/_search"
+  ;       terms "cardiovascular"]
+  ;   (execute-query query-url terms))
+
+
   ; (let [{drugs :drugs rationale :rationale recommendation :recommendation
   ;       quality-of-evidence :quality-of-evidence
   ;       strength-of-recommendation :strength-of-recommendation
   ;       evidence :evidence}]
-  {[:.list-column] (kioo/content [:li [:ul [:li ] [:li ]]])})
-
-(deftemplate results "templates/results.html" []
-  {[:.card] (map result @query-results)})
-
-(deftemplate page "index.html" []
-  {[:.results] (kioo/content (beers-results))})
-
-(defn init []
-  (let [json-url "http://168.235.155.245:9200/beers/2015/_search", terms "cardiovascular"]
-    (download-json json-url terms))
-  (reagent/render-component [page] (.-body js/document)))
