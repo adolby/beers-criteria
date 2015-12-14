@@ -1,5 +1,7 @@
 (ns app.app
-  (:require [cljs.core.async :as async :refer [chan <! >!]]
+  (:require [goog.dom :as dom]
+            [goog.events :as events]
+            [cljs.core.async :as async :refer [<! >! put! chan]]
             [reagent.core :as reagent]
             [kioo.reagent :as kioo]
             [cljs-http.client :as http])
@@ -12,15 +14,13 @@
 ; Application state
 (def query-results (reagent/atom {}))
 
-(defn query [path]
-  (let [in (chan)]
-    ))
-
 (defn get-results [in]
   (let [out (chan)]
     (go
       (while true
-        (>! out (<! (http/get query-url {:query-params {"q" (<! in)}})))))))
+        (>! out (<! (http/get query-url {:query-params {"q" (<! in)}})))
+        (.log js/console (<!
+                           (http/get query-url {:query-params {"q" (<! in)}})))))))
 
 (defn extract-hits [in]
   (let [out (chan)]
@@ -28,43 +28,81 @@
       (while true
         (>! out {{{hits-vector :hits} :hits} :body} (<! in))))))
 
-;(defn )
-
 (defn update-results-state [in]
   (go
     (while true
       (swap! @query-results (<! in)))))
 
-; Process pipeline
+(defn timeout [ms]
+  (let [c (chan)]
+    (js/setTimeout (fn [] (close! c)) ms)
+    c))
 
-(def get-results-out (get-results query-chan))
+(defn throttle [c ms]
+  (let [c' (chan)]
+    (go
+      (while true
+        (>! c' (<! c))
+        (<! (timeout ms))))
+    c'))
+
+; Process pipeline entry point
+(def query-chan (chan (sliding-buffer 1)))
+(def throttled-query-chan (throttle query-chan 500))
+
+; Rest of process pipeline
+(def get-results-out (get-results throttled-query-chan))
 (def extract-hits-out (extract-hits get-results-out))
 (update-results-state extract-hits-out)
 
+; Use channels instead of callbacks for DOM interaction. Taken from
+; David Nolen's Clojurescript 101:
+; http://swannodette.github.io/2013/11/07/clojurescript-101/
+; .addEventListener or this listen function?
+(defn listen [el type]
+  (let [out (chan)]
+    (events/listen el type
+      (fn [e] (put! out e)))
+    out))
+
+(defn search-field []
+  (dom/getElement "search-field"))
+
+; Capture keypresses on search field and perform searches as user types,
+; throttled to an interval
+(defn query-input-loop []
+  (let [typing (listen (search-field) "keypress")]
+    (go
+      (while true
+        (<! typing)
+        (>! throttled-query-chan (.-value (search-field)))))))
+
 ; Templating
 (defsnippet result-data "templates/results.html" [:.list-row] [result-element]
-  {[:list-row] (kioo/content [:li (first result-element)] [:li (second result-element)])})
+  {[:list-row] (kioo/content [:li (first result-element)]
+                             [:li (second result-element)])})
 
 (defsnippet result-card "templates/results.html" [:.card] [result-map]
   {[:.list-column] (kioo/content [:li
                                    [:ul {:class "list-row"}
-                                     (map result-data (get result-map :_source))]])})
+                                     (map result-data
+                                       (get result-map :_source))]])})
 
 (deftemplate result-cards "templates/results.html" []
   {[:.card] (map result-card @query-results)})
 
 (deftemplate page "index.html" []
-  {[:.search-field] (kioo/listen :on-change #(>!! query-chan .-value))
-   [:.results] (kioo/content (result-cards))})
+  {[:.results] (result-cards)})
 
 (defn init []
-  (reagent/render-component [page] (.-body js/document)))
+  (reagent/render-component [page] (.-body js/document))
+  (query-input-loop))
 
-  ; (let [query-url "http://168.235.155.245/beers/2015/_search"
-  ;       terms "cardiovascular"]
-  ;   (execute-query query-url terms))
+; (let [query-url "http://168.235.155.245/beers/2015/_search"
+;       terms "cardiovascular"]
+;   (execute-query query-url terms))
 
-  ; (let [{drugs :drugs rationale :rationale recommendation :recommendation
-  ;        quality-of-evidence :quality-of-evidence
-  ;        strength-of-recommendation :strength-of-recommendation
-  ;        evidence :evidence}]
+; (let [{drugs :drugs rationale :rationale recommendation :recommendation
+;        quality-of-evidence :quality-of-evidence
+;        strength-of-recommendation :strength-of-recommendation
+;        evidence :evidence}]
