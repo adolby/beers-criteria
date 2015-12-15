@@ -1,7 +1,7 @@
 (ns app.app
   (:require [goog.dom :as dom]
             [goog.events :as events]
-            [cljs.core.async :as async :refer [<! >! put! chan]]
+            [cljs.core.async :as async :refer [<! >! put! close! chan sliding-buffer]]
             [reagent.core :as reagent]
             [kioo.reagent :as kioo]
             [cljs-http.client :as http])
@@ -18,20 +18,20 @@
   (let [out (chan)]
     (go
       (while true
-        (>! out (<! (http/get query-url {:query-params {"q" (<! in)}})))
-        (.log js/console (<!
-                           (http/get query-url {:query-params {"q" (<! in)}})))))))
+        (>! out (<! (http/get query-url {:query-params {"q" (<! in)}})))))
+    out))
 
 (defn extract-hits [in]
   (let [out (chan)]
     (go
       (while true
-        (>! out {{{hits-vector :hits} :hits} :body} (<! in))))))
+        (>! out (get-in (<! in) [:body :hits :hits]))))
+    out))
 
 (defn update-results-state [in]
   (go
     (while true
-      (swap! @query-results (<! in)))))
+      (.log js/console (swap! query-results assoc :query-results (<! in))))))
 
 (defn timeout [ms]
   (let [c (chan)]
@@ -47,11 +47,11 @@
     c'))
 
 ; Process pipeline entry point
-(def query-chan (chan (sliding-buffer 1)))
-(def throttled-query-chan (throttle query-chan 500))
+(def query-chan (chan))
+; (def throttled-query-chan (throttle query-chan 500))
 
 ; Rest of process pipeline
-(def get-results-out (get-results throttled-query-chan))
+(def get-results-out (get-results query-chan))
 (def extract-hits-out (extract-hits get-results-out))
 (update-results-state extract-hits-out)
 
@@ -75,11 +75,11 @@
     (go
       (while true
         (<! typing)
-        (>! throttled-query-chan (.-value (search-field)))))))
+        (>! query-chan (.-value (search-field)))))))
 
 ; Templating
 (defsnippet result-data "templates/results.html" [:.list-row] [result-element]
-  {[:list-row] (kioo/content [:li (first result-element)]
+  {[:.list-row] (kioo/content [:li (first result-element)]
                              [:li (second result-element)])})
 
 (defsnippet result-card "templates/results.html" [:.card] [result-map]
@@ -89,13 +89,13 @@
                                        (get result-map :_source))]])})
 
 (deftemplate result-cards "templates/results.html" []
-  {[:.card] (map result-card @query-results)})
+  {[:.card] (map result-card (get @query-results :query-results))})
 
 (deftemplate page "index.html" []
   {[:.results] (result-cards)})
 
 (defn init []
-  (reagent/render-component [page] (.-body js/document))
+  ;(reagent/render-component [page] (.-body js/document))
   (query-input-loop))
 
 ; (let [query-url "http://168.235.155.245/beers/2015/_search"
