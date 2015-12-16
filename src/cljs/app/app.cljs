@@ -31,11 +31,6 @@
   (go-loop []
     (.log js/console (swap! state assoc :results (<! in)))))
 
-; (defn timeout [ms]
-;   (let [c (chan)]
-;     (js/setTimeout (fn [] (close! c)) ms)
-;     c))
-
 (defn throttle [c ms]
   (let [c' (chan)]
     (go-loop []
@@ -69,8 +64,7 @@
 (defn search-field []
   (dom/getElement "search-field"))
 
-; Capture keypresses on search field and perform searches as user types,
-; throttled to an interval
+; Capture keypresses on search field and perform searches as user types
 (defn query-input-loop []
   (let [typing (listen (search-field) "keypress")]
     (go-loop []
@@ -78,31 +72,31 @@
       (>! query-chan (.-value (search-field))))))
 
 ; Templating
-(defsnippet result-data "templates/results.html" [:.list-row] [result-element]
-  {[:.list-row] (kioo/content [:li (first result-element)]
-                              [:li (second result-element)])})
+(def lookup-label
+  {:category-drugs "Therapeutic Category: Drug(s)"
+   :organ-system "Organ System"
+   :rationale "Rationale"
+   :recommendation "Recommendation"
+   :quality-of-evidence "Quality Of Evidence"
+   :strength-of-recommendation "Strength of Recommendation"
+   :evidence "Evidence"})
+
+(defsnippet result-data "templates/results.html" [:.list-row] [[key val]]
+  {[:.list-row] (kioo/content [:li (get key lookup-label)]
+                              [:li val])})
 
 (defsnippet result-card "templates/results.html" [:.card] [result-map]
   {[:.list-column] (kioo/content [:li
                                    [:ul {:class "list-row"}
                                      (map result-data
-                                       (get result-map :_source))]])})
+                                       result-map)]])})
 
 (deftemplate result-cards "templates/results.html" []
-  {[:.card] (map result-card (get @state :results))})
+  {[:.card] (kioo/content (map result-card (get-in @state [:results :_source])}))})
 
 (deftemplate page "index.html" []
-  {[:.results] (result-cards)})
+  {[:.results] (kioo/content (result-cards))})
 
 (defn init []
   (reagent/render-component [page] (.-body js/document))
   (query-input-loop))
-
-; (let [query-url "http://168.235.155.245/beers/2015/_search"
-;       terms "cardiovascular"]
-;   (execute-query query-url terms))
-
-; (let [{drugs :drugs rationale :rationale recommendation :recommendation
-;        quality-of-evidence :quality-of-evidence
-;        strength-of-recommendation :strength-of-recommendation
-;        evidence :evidence}]
