@@ -44,7 +44,7 @@
     c'))
 
 ; Process pipeline entry point
-(def query-chan (chan))
+(def query-chan (chan (sliding-buffer 1)))
 (def throttled-query-chan (throttle query-chan 1000))
 
 ; Rest of process pipeline
