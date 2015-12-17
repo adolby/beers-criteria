@@ -92,7 +92,7 @@
                                        result-map)]])})
 
 (deftemplate result-cards "templates/results.html" []
-  {[:.card] (kioo/content (map result-card (get-in @state [:results :_source])}))})
+  {[:.card] (kioo/content (map result-card (get-in @state [:results :_source])))})
 
 (deftemplate page "index.html" []
   {[:.results] (kioo/content (result-cards))})
