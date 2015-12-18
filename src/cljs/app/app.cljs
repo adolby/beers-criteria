@@ -7,7 +7,7 @@
             [kioo.reagent :as kioo]
             [cljs-http.client :as http])
   (:require-macros [kioo.reagent :refer [defsnippet deftemplate]]
-                   [cljs.core.async.macros :refer [go-loop]]))
+                   [cljs.core.async.macros :refer [go go-loop]]))
 
 ; ElasticSearch API URL
 (def query-url "http://168.235.155.245/beers/2015/_search")
@@ -52,25 +52,6 @@
 (def extract-hits-out (extract-hits get-results-out))
 (update-results-state extract-hits-out)
 
-; Use channels instead of callbacks for DOM interaction. Taken from
-; David Nolen's ClojureScript 101:
-; http://swannodette.github.io/2013/11/07/clojurescript-101/
-(defn listen [el type]
-  (let [out (chan)]
-    (events/listen el type
-      (fn [e] (put! out e)))
-    out))
-
-(defn search-field []
-  (dom/getElement "search-field"))
-
-; Capture keypresses on search field and perform searches as user types
-(defn query-input-loop []
-  (let [typing (listen (search-field) "keypress")]
-    (go-loop []
-      (<! typing)
-      (>! query-chan (.-value (search-field))))))
-
 ; Templating
 (def labels
   {:category-drugs "Therapeutic Category: Drug(s)"
@@ -92,11 +73,16 @@
 
 (deftemplate result-cards "templates/results.html" []
   {[:.card] (kioo/content (map result-card
-                                   (get-in @state [:results :_source])}))})
+                            (get-in @state [:results :_source])))})
 
 (deftemplate page "index.html" []
-  {[:.results] (kioo/content (result-cards))})
+  {[:.search-field] (kioo/listen :on-key-press
+                      (fn []
+                        (go
+                          (.log js/console "Press")
+                          (>! query-chan (.-value (dom/getElement "search-field"))))))
+
+   [:.results] (kioo/content (result-cards))})
 
 (defn init []
-  (reagent/render-component [page] (.-body js/document))
-  (query-input-loop))
+  (reagent/render-component [page] (.-body js/document)))
