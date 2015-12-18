@@ -53,7 +53,7 @@
 (update-results-state extract-hits-out)
 
 ; Use channels instead of callbacks for DOM interaction. Taken from
-; David Nolen's Clojurescript 101:
+; David Nolen's ClojureScript 101:
 ; http://swannodette.github.io/2013/11/07/clojurescript-101/
 (defn listen [el type]
   (let [out (chan)]
@@ -72,7 +72,7 @@
       (>! query-chan (.-value (search-field))))))
 
 ; Templating
-(def lookup-label
+(def labels
   {:category-drugs "Therapeutic Category: Drug(s)"
    :organ-system "Organ System"
    :rationale "Rationale"
@@ -81,18 +81,18 @@
    :strength-of-recommendation "Strength of Recommendation"
    :evidence "Evidence"})
 
-(defsnippet result-data "templates/results.html" [:.list-row] [[key val]]
-  {[:.list-row] (kioo/content [:li (get key lookup-label)]
-                              [:li val])})
+(defsnippet result-data "templates/results.html" [:.list-column] [[k v]]
+  {[:.list-row] (kioo/content [:li (k labels)]
+                              [:li v])})
 
-(defsnippet result-card "templates/results.html" [:.card] [result-map]
+(defsnippet result-card "templates/results.html" [:.card] [results]
   {[:.list-column] (kioo/content [:li
                                    [:ul {:class "list-row"}
-                                     (map result-data
-                                       result-map)]])})
+                                     (map result-data results)]])})
 
 (deftemplate result-cards "templates/results.html" []
-  {[:.card] (kioo/content (map result-card (get-in @state [:results :_source])))})
+  {[:.card] (kioo/content (map result-card
+                                   (get-in @state [:results :_source])}))})
 
 (deftemplate page "index.html" []
   {[:.results] (kioo/content (result-cards))})
