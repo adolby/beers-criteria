@@ -31,17 +31,17 @@
   (go-loop []
     (.log js/console (swap! state assoc :results (<! in)))))
 
-(defn throttle [c ms]
-  (let [c' (chan)]
+(defn throttle [in ms-delay]
+  (let [out (chan)]
     (go-loop []
       ; Take from the input channel and pass through.
-      (>! c' (<! c))
+      (>! out (<! in))
 
       ; Park while trying to take from an unused channel. The channel receives
       ; no input, and will time out, delaying the above take from the input
       ; channel.
-      (<! (timeout ms)))
-    c'))
+      (<! (timeout ms-delay)))
+    out))
 
 ; Process pipeline entry point
 (def query-chan (chan (sliding-buffer 1)))
@@ -78,9 +78,8 @@
 (deftemplate page "index.html" []
   {[:.search-field] (kioo/listen :on-key-press
                       (fn []
-                        (go
-                          (.log js/console "Press")
-                          (>! query-chan (.-value (dom/getElement "search-field"))))))
+                        (put! query-chan
+                          (.-value (dom/getElement "search-field")))))
 
    [:.results] (kioo/content (result-cards))})
 
