@@ -1,5 +1,6 @@
 (ns app.app
   (:require [goog.dom :as dom]
+            [clojure.string :as string :refer [blank?]]
             [cljs.core.async :refer [<! >! put! close! chan
                                      timeout sliding-buffer]]
             [reagent.core :as reagent]
@@ -103,10 +104,12 @@
                              (:results @state)))})
 
 (deftemplate page "index.html" []
-  {[:.search-field] (kioo/listen :on-key-press
+  {[:.search-field] (kioo/listen :on-key-down
                       (fn [_]
-                        (put! query-chan
-                          (.-value (dom/getElement "search-field")))))
+                        (let [input (.-value (dom/getElement "search-field"))]
+                          (if (blank? input)
+                            (init-state)
+                            (put! query-chan input)))))
 
    [:.test-button] (kioo/listen :on-click
                      (fn [_]
