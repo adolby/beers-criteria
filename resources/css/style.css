@@ -118,11 +118,16 @@ nav ul li:last-of-type a {
   padding: 0.25rem;
 }
 
-/* Beers Criteria Result Card */
+/* Result Cards */
+.cards {
+  margin: 0;
+}
+
 .card {
   background-color: #fafafa;
   color: #272727;
   font-size: 1.5rem;
+  margin: 0 0.25rem 2rem 0.25rem;
   border-radius: 2px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
@@ -131,25 +136,20 @@ nav ul li:last-of-type a {
   list-style: none;
   height: auto;
   text-decoration: none;
-  /*padding: 0.9rem 1.14rem;*/
 }
 
-.list-column {
-  display: flex;
-  flex-flow: column wrap;
-}
-
-.list-row {
+.row {
   display: flex;
   flex-flow: row wrap;
 }
 
-.list-row li {
+.row li {
+  flex-grow: 1;
   padding: 1rem;
 }
 
-.list-row li:first-child {
-  flex-grow: 1;
+.row li:first-child {
+  flex-grow: 0;
   font-weight: bold;
 }
 
@@ -266,7 +266,7 @@ nav ul li:last-of-type a {
 /* Tablet and larger */
 @media all and (min-width: 48rem) {
   .card {
-    margin: 0.5rem 10.5rem;
+    margin: 0 5rem 4rem 5rem;
     padding: 2.5rem 3.5rem;
   }
 
@@ -294,11 +294,6 @@ nav ul li:last-of-type a {
 
 /* Laptop / Desktop */
 @media all and (min-width: 75rem) {
-  .card {
-    margin: 0.5rem 19.5rem;
-    padding: 2.5rem 3.5rem;
-  }
-
   nav ul {
     justify-content: flex-end;
   }
