@@ -1,5 +1,6 @@
 (ns app.app
-  (:require [goog.dom :as dom]
+  (:require [goog.events :as events]
+            [goog.dom :as dom]
             [clojure.string :as string :refer [blank?]]
             [cljs.core.async :refer [<! >! put! close! chan
                                      timeout sliding-buffer]]
@@ -9,66 +10,25 @@
   (:require-macros [kioo.reagent :refer [defsnippet deftemplate]]
                    [cljs.core.async.macros :refer [go go-loop]]))
 
-(def data-url "data/beers-data.json")
+(def all-results-url "data/beers-2015.json")
 
 ; ElasticSearch API URL
 (def query-url "http://168.235.155.245/beers/2015/_search")
+;(def query-url "search_test.json")
 
 ; Application state
-(def state (reagent/atom {:results {}}))
+(def state (reagent/atom {:all-results {} :results {} :cache {}}))
 
-(defn init-state []
+(defn update-results [results]
+  (swap! state assoc :results results))
+
+(defn update-cache [key new-results]
+  (swap! state assoc-in [:cache key] new-results))
+
+(defn load-all-results [url]
   (go
-    (swap! state assoc :results
-      (get (<! (http/get data-url)) :body))))
-
-(defn get-results [in]
-  (let [out (chan)]
-    (go-loop []
-      (>! out (<! (http/get query-url {:query-params {"q" (<! in)}}))))
-    out))
-
-(defn extract-hits [in]
-  (let [out (chan)]
-    (go-loop []
-      (>! out (get-in (<! in) [:body :hits :hits])))
-    out))
-
-(defn flatten-structure [in]
-  (let [out (chan)]
-    (go-loop []
-      (>! out (for [el (<! in)]
-                (get el :_source))))
-    out))
-
-(defn update-results-state [in]
-  (go-loop []
-    (swap! state assoc :results (<! in))))
-
-(defn throttle [in ms-delay]
-  (let [out (chan)]
-    (go-loop []
-      ; Take from the input channel and pass through.
-      (>! out (<! in))
-
-      ; Park while trying to take from an unused channel. The channel receives
-      ; no input, and will time out, delaying the above take from the input
-      ; channel.
-      (<! (timeout ms-delay)))
-    out))
-
-; Process pipeline entry point
-(def query-chan (chan (sliding-buffer 1)))
-(def throttled-query-chan (throttle query-chan 1000))
-
-; Rest of process pipeline
-(def get-results-out (get-results throttled-query-chan))
-(def extract-hits-out (extract-hits get-results-out))
-(def flatten-structure-out (extract-hits extract-hits-out))
-(update-results-state flatten-structure-out)
-
-(def second-chan (chan))
-(def second-path (update-results-state second-chan))
+    (swap! state assoc :all-results (:body (<! (http/get url))))
+    (update-results (:all-results @state))))
 
 ; Templating
 (def labels
@@ -79,19 +39,6 @@
    :quality-of-evidence "Quality Of Evidence"
    :strength-of-recommendation "Strength of Recommendation"
    :evidence "Evidence"})
-
-; (defsnippet result-data "templates/results.html" [:.list-row] [[k v]]
-;   {[:.list-row] (kioo/content [:li (k labels)]
-;                               [:li v])})
-;
-; (defsnippet result-card "templates/results.html" [:.card] [results]
-;   {[:.list-column] (kioo/content [:li
-;                                    [:ul {:class "list-row"}
-;                                      (map result-data results)]])})
-;
-; (deftemplate result-cards "templates/results.html" []
-;   {[:.cards] (kioo/content (map result-card
-;                              (:results @state)))})
 
 (defsnippet result-data "templates/results.html" [:.row] [[k v]]
   {[:.row] (kioo/content [:li (k labels)] [:li v])})
@@ -104,41 +51,94 @@
                              (:results @state)))})
 
 (deftemplate page "index.html" []
-  {[:.search-field] (kioo/listen :on-key-down
-                      (fn [_]
-                        (let [input (.-value (dom/getElement "search-field"))]
-                          (if (blank? input)
-                            (init-state)
-                            (put! query-chan input)))))
+  {[:.results] (kioo/content (result-cards))})
 
-   [:.test-button] (kioo/listen :on-click
-                     (fn [_]
-                       (.log js/console (clj->js (:results @state)))))
+; Pipelines
 
-   [:.test-state-push] (kioo/listen :on-click
-                         (fn [_]
-                           (put! second-chan
-                             [{
-                               :category-drugs "-generation antihistamines: Brompheniramine, Carbinoxamine, Chlorpheniramine, Clemastine, Cyproheptadine, Dexbrompheniramine, Dexchlorpheniramine, Dimenhydrinate, Diphenhydramine (oral), Doxylamine, Hydroxyzine, Meclizine, Promethazine, Triprolidine",
-                               :organ-system "Anticholinergics",
-                               :rationale "Highly anticholinergic; clearance reduced with advanced age, and tolerance develops when used as hypnotic; risk of confusion, dry mouth, constipation, and other anticholinergic effects or toxicity. Use of diphenhydramine in situations such as acute treatment of severe allergic reaction may be appropriate",
-                               :recommendation "Avoid",
-                               :quality-of-evidence "Moderate",
-                               :strength-of-recommendation "Strong",
-                               :evidence "2015 Criteria: Duran 2013, Fox 2014, Kalisch Ellet 2014. From previous criteria: Agostini 2001, Boustani 2007, Guaiana 2010, Han 2001, Rudolph 2008"
-                              },
-                              {
-                               :category-drugs "Antiparkinsonian agents: Benztropine (oral), Trihexyphenidyl",
-                               :organ-system "Anticholinergics",
-                               :rationale "Not recommended for prevention of extrapyramidal symptoms with antipsychotics; more effective agents available for treatment of Parkinson disease.",
-                               :recommendation "Avoid",
-                               :quality-of-evidence "Moderate",
-                               :strength-of-recommendation "Strong",
-                               :evidence "Rudolph 2008"
-                              }])))
+; Query pipeline
+(defn throttle [in ms-delay]
+  (let [out (chan)]
+    (go (while true
+      ; Take from the input channel and pass through.
+      (>! out (<! in))
 
-   [:.results] (kioo/content (result-cards))})
+      ; Park while trying to take from an unused channel. This channel receives
+      ; no input, and will park until timed out, delaying the above take from
+      ; the input channel as the user types.
+      (<! (timeout ms-delay))))
+    out))
+
+(defn get-results [in]
+  (let [out (chan)]
+    (go (while true
+      (let [[url search-text] (<! in)
+            response (<! (http/get url {:query-params {"q" search-text}}))]
+        (>! out (vector search-text response)))))
+    out))
+
+(defn extract-hits [in]
+  (let [out (chan)]
+    (go (while true
+      (let [[search-text mid-results] (<! in)
+            output (get-in mid-results [:body :hits :hits])]
+        (>! out (vector search-text output)))))
+    out))
+
+(defn flatten-structure [in]
+  (let [out (chan)]
+    (go (while true
+      (let [[search-text mid-results] (<! in)
+            output (vec (map #(:_source %) mid-results))]
+        (>! out (vector search-text output)))))
+    out))
+
+(defn update-query-results [in]
+  (go (while true
+    (let [[search-text query-results] (<! in)]
+      (update-cache search-text query-results)
+      (update-results query-results)))))
+
+; Query process pipeline entry point
+; Sliding buffer is used to complete throttling
+(def query-chan (chan (sliding-buffer 1)))
+(def throttled-query-chan (throttle query-chan 3000))
+(def get-results-out (get-results throttled-query-chan))
+(def extract-hits-out (extract-hits get-results-out))
+(def flatten-structure-out (flatten-structure extract-hits-out))
+(update-query-results flatten-structure-out)
+
+; Cache pipeline
+(defn update-cache-results [in]
+  (go (while true
+    (let [query-result (<! in)]
+      (update-results (get (:cache @state) query-result))))))
+
+(def cache-chan (chan))
+(update-cache-results cache-chan)
+
+; Creates and returns a channel to listen to events specified by type parameter
+(defn listen [el type]
+  (let [out (chan)]
+    (events/listen el type #(put! out %))
+    out))
+
+(defn search-field []
+  (dom/getElementByClass "search-field"))
+
+(defn listen-search-input []
+  (let [input (listen (search-field) "keyup")]
+    (go (while true
+      (<! input)
+
+      (let [cache (:cache @state)
+            query-text (.-value (search-field))]
+        (if (blank? query-text)
+          (update-results (:all-results @state))
+          (if (contains? cache query-text)
+            (put! cache-chan query-text)
+            (put! query-chan (vector query-url query-text)))))))))
 
 (defn init []
-  (init-state)
-  (reagent/render-component [page] (.-body js/document)))
+  (load-all-results all-results-url)
+  (reagent/render-component [page] (.-body js/document))
+  (listen-search-input))
