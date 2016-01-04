@@ -164,6 +164,7 @@ nav ul li:last-of-type a {
 .search-label {
   font-weight: bold;
   font-size: 70.25%;
+  color: #3c3e40;
   padding: 0.75em 0;
   text-transform: uppercase;
 }
