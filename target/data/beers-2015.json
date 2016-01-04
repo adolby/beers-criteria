@@ -1,0 +1,326 @@
+[
+  {
+    "category-drugs":"First-generation antihistamines: Brompheniramine, Carbinoxamine, Chlorpheniramine, Clemastine, Cyproheptadine, Dexbrompheniramine, Dexchlorpheniramine, Dimenhydrinate, Diphenhydramine (oral), Doxylamine, Hydroxyzine, Meclizine, Promethazine, Triprolidine",
+    "organ-system":"Anticholinergics",
+    "rationale":"Highly anticholinergic; clearance reduced with advanced age, and tolerance develops when used as hypnotic; risk of confusion, dry mouth, constipation, and other anticholinergic effects or toxicity. Use of diphenhydramine in situations such as acute treatment of severe allergic reaction may be appropriate",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Duran 2013, Fox 2014, Kalisch Ellet 2014. From previous criteria: Agostini 2001, Boustani 2007, Guaiana 2010, Han 2001, Rudolph 2008"
+  },
+  {
+    "category-drugs":"Antiparkinsonian agents: Benztropine (oral), Trihexyphenidyl",
+    "organ-system":"Anticholinergics",
+    "rationale":"Not recommended for prevention of extrapyramidal symptoms with antipsychotics; more effective agents available for treatment of Parkinson disease.",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Rudolph 2008"
+  },
+  {
+    "category-drugs":"Antispasmodics: Atropine (excludes ophthalmic), Belladonna alkaloids, Clidinium-Chlordiazepoxide, Dicyclomine, Hyoscyamine, Propantheline, Scopolamine",
+    "organ-system":"Anticholinergics",
+    "rationale":"Highly anticholinergic, uncertain effectiveness",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Lechevallier-Michel 2005, Rudolph 2008"
+  },
+  {
+    "category-drugs":"Dipyridamole, oral short-acting (does not apply to the extended-release combination with aspirin)",
+    "organ-system":"Antithrombotics",
+    "rationale":"May cause orthostatic hypotension; more effective alternatives available; IV form acceptable for use in cardiac stress testing",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"De Schryver 2010, Dipyridamole package insert"
+  },
+  {
+    "category-drugs":"Ticlopidine",
+    "organ-system":"Antithrombotics",
+    "rationale":"Safer, effective alternatives available",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Ticlopidine package insert"
+  },
+  {
+    "category-drugs":"Nitrofurantoin",
+    "organ-system":"Anti-infective",
+    "rationale":"Potential for pulmonary toxicity, hepatoxicity, and peripheral neuropathy, especially with long-term use; safer alternatives available",
+    "recommendation":"Avoid in individuals with creatinine clearance <30 mL/min or for long-term suppression",
+    "quality-of-evidence":"Low",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Bains 2009, Geerts 2013. From previous criteria: Felts 1971, Hardak 2010, Holmberg 1980"
+  },
+  {
+    "category-drugs":"Peripheral alpha-1 blockers: Doxazosin, Prazosin, Terazosin",
+    "organ-system":"Cardiovascular",
+    "rationale":"High risk of orthostatic hypotension; not recommended as routine treatment for hypertension; alternative agents have superior risk/benefit profile",
+    "recommendation":"Avoid use as an antihypertensive",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"ALLHAT 2000, Aronow 2011"
+  },
+  {
+    "category-drugs":"Central alpha blockers: Clonidine, Guanabenz, Guanfacine, Methyldopa, Reserpine (>0.1 mg/d)",
+    "organ-system":"Cardiovascular",
+    "rationale":"High risk of adverse CNS effects; may cause bradycardia and orthostatic hypotension; not recommended as routine treatment for hypertension",
+    "recommendation":"Avoid clonidine as first-line antihypertensive. Avoid others as listed.",
+    "quality-of-evidence":"Low",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Aronow 2011, Methyldopa package insert, Reserpine package insert"
+  },
+  {
+    "category-drugs":"Disopyramide",
+    "organ-system":"Cardiovascular",
+    "rationale":"Disopyramide is a potent negative inotrope and therefore may induce heart failure in older adults; strongly anticholinergic; other antiarrhythmic drugs preferred",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Low",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Fuster 2006, Disopyramide package insert"
+  },
+  {
+    "category-drugs":"Dronedarone",
+    "organ-system":"Cardiovascular",
+    "rationale":"Worse outcomes have been reported in patients taking dronedarone who have permanent atrial fibrillation or severe or recently decompensated heart failure",
+    "recommendation":"Avoid in individuals with permanent atrial fibrillation or severe or recently decompensated heart failure",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Connolly 2011, FDA Drug Safety 2011, Hohnloser 2009, Korber 2008, Dronedarone package insert –revised"
+  },
+  {
+    "category-drugs":"Digoxin",
+    "organ-system":"Cardiovascular",
+    "rationale":"Use in atrial fibrillation: should not be used as a first-line agent in atrial fibrillation, because more-effective alternatives exist and it may be associated with increased mortality. Use in heart failure: questionable effects on risk of hospitalization and may be associated with increased mortality in older adults with heart failure; in heart failure, higher dosages not associated with additional benefit and may increase risk of toxicity. Decreased renal clearance of digoxin may lead to increased risk of toxic effects; further dose reduction may be necessary in those with Stage 4 or 5 chronic kidney disease.",
+    "recommendation":"Avoid as first-line therapy for atrial fibrillation. Avoid as first-line therapy for heart failure. If used for atrial fibrillation or heart failure, avoid dosages >0.125 mg/d.",
+    "quality-of-evidence":"Atrial fibrillation: moderate. Heart failure: low. Dosage >0.125 mg/d: moderate.",
+    "strength-of-recommendation":"Atrial fibrillation: strong. Heart failure: strong. Dosage >0.125 mg/d: strong.",
+    "evidence":"2015 Criteria: Use in atrial fibrillation: Al-Khatib 2013, Turakhia 2014, Whitbeck 2013, Gheorghiade 2013a, Gheorghiade 2013b, Friberg 2010, Mulder 2014, Ambrosy 2014, National PBM Bulletin 2014. Use in heart failure: Freeman 2013. From previous criteria: Adams 2002, Ahmed 2007, Rathore 2003"
+  },
+  {
+    "category-drugs":"Nifedipine, immediate release",
+    "organ-system":"Cardiovascular",
+    "rationale":"Potential for hypotension; risk of precipitating myocardial ischemia",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Furberg 1995, Nifedipine package insert, Pahor 1995, Psaty 1995a, Psaty 1995b"
+  },
+  {
+    "category-drugs":"Amiodarone",
+    "organ-system":"Cardiovascular",
+    "rationale":"Amiodarone is effective for maintaining sinus rhythm but has greater toxicities than other antiarrhythmics used in atrial fibrillation; it may be reasonable first-line therapy in patients with concomitant heart failure or substantial left ventricular hypertrophy if rhythm control is preferred over rate control.",
+    "recommendation":"Avoid amiodarone as first-line therapy for atrial fibrillation unless the patient has heart failure or substantial left ventricular hypertrophy.",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Fuster 2006, ACC/AHA 2006 guideline"
+  },
+  {
+    "category-drugs":"Antidepressants, alone or in combination, Amitriptyline, Amoxapine, Clomipramine, Desipramine, Doxepin >6 mg/d, Imipramine, Nortriptyline, Paroxetine, Protriptyline, Trimipramine",
+    "organ-system":"Central nervous system",
+    "rationale":"Highly anticholinergic, sedating, and cause orthostatic hypotension; safety profile of low-dose doxepin (≤6 mg/d) comparable with that of placebo",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Coupland 2011, Nelson 2011, Scharf 2008"
+  },
+  {
+    "category-drugs":"Antipsychotics, first-(conventional) and second- (atypical) generation",
+    "organ-system":"Central nervous system",
+    "rationale":"Increased risk of cerebrovascular accident (stroke) and greater rate of cognitive decline and mortality in persons with dementia. Avoid antipsychotics for behavioral problems of dementia and/or delirium unless nonpharmacological options (e.g., behavioral interventions) have failed or are not possible and the older adult is threatening substantial harm to self or others",
+    "recommendation":"Avoid, except for schizophrenia, bipolar disorder, or short-term use as antiemetic during chemotherapy",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Hwang 2014, Langballe 2014. From previous criteria: Dore 2009, Maher 2011, Schneider 2005, Schneider 2006a, Schneider 2006b, Vigen 2011"
+  },
+  {
+    "category-drugs":"Barbiturates: Amobarbital, Butabarbital, Butalbital, Mephobarbital, Pentobarbital, Phenobarbital, Secobarbital",
+    "organ-system":"Central nervous system",
+    "rationale":"High rate of physical dependence, tolerance to sleep benefits, greater risk of overdose at low dosages",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Cumbo 2010, McLean 2000, Messina 2005"
+  },
+  {
+    "category-drugs":"Benzodiazepines: Short- and intermediate- acting: Alprazolam, Estazolam, Lorazepam, Oxazepam, Temazepam, Triazolam. Long-acting: Clorazepate, Chlordiazepoxide, (alone or in combination with amitriptyline or clidinium), Clonazepam,Diazepam. Flurazepam, Quazepam",
+    "organ-system":"Central nervous system",
+    "rationale":"Older adults have increased sensitivity to benzodiazepines and decreased metabolism of long-acting agents; in general, all benzodiazepines increase risk of cognitive impairment, delirium, falls, fractures, and motor vehicle crashes in older adults. May be appropriate for seizure disorders, rapid eye movement sleep disorders, benzodiazepine withdrawal, ethanol withdrawal, severe generalized anxiety disorder, and periprocedural anesthesia.",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Breitbart 1996, de Gage 2012, de Vries 2013, Gallacher 2012, Tannenbaum 2012. From previous criteria: Allain 2005, Cotroneo 2007, Finkle 2011, Paterniti 2002."
+  },
+  {
+    "category-drugs":"Meprobamate",
+    "organ-system":"Central nervous system",
+    "rationale":"High rate of physical dependence; very sedating",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Keston 1974, Rhalimi 2009"
+  },
+  {
+    "category-drugs":"Nonbenzodiazepine, benzodiazepine receptor agonist hypnotics: Eszopiclone, Zolpidem, Zaleplon",
+    "organ-system":"Central nervous system",
+    "rationale":"Benzodiazepine-receptor agonists have adverse events similar to those ofbenzodiazepines in older adults (e.g., delirium, falls, fractures); increased emergency room visits/hospitalizations; motor vehicle crashes; minimal improvement in sleep latency and duration",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Berry 2013, Hampton 2014. From previous criteria: Allain 2005, Cotroneo 2007, Finkle 2011, McCrae 2007, Orriols 2011, Rhalimi 2009, Wang 2001b, Yang 2011"
+  },
+  {
+    "category-drugs":"Ergoloid mesylates (dehydrogenated ergot alkaloids), Isoxsuprine",
+    "organ-system":"Central nervous system",
+    "rationale":"Lack of efficacy",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Isoxsuprine package insert"
+  },
+  {
+    "category-drugs":"Androgens: Methyltestosterone, Testosterone",
+    "organ-system":"Endocrine",
+    "rationale":"Potential for cardiac problems; contraindicated in men with prostate cancer",
+    "recommendation":"Avoid unless indicated for confirmed hypogonadism with clinical symptoms",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Weak",
+    "evidence":"2015 Criteria: Basaria 2013, Vigen 2013, Hildreth 2013. From previous criteria: Basaria 2010, Jones 2011"
+  },
+  {
+    "category-drugs":"Desiccated thyroid",
+    "organ-system":"Endocrine",
+    "rationale":"Concerns about cardiac effects; safer alternatives available",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Low",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Baskin 2002, Rees-Jones 1977, Rees-Jones 1980, Sawin 1978, Sawin 1989"
+  },
+  {
+    "category-drugs":"Estrogens with or without progestins",
+    "organ-system":"Endocrine",
+    "rationale":"Evidence of carcinogenic potential (breast and endometrium); lack of cardioprotective effect and cognitive protection in older women. Evidence indicates that vaginal estrogens for the treatment of vaginal dryness are safe and effective; women with a history of breast cancer who do not respond to nonhormonal therapies are advised to discuss the risk and benefits of low-dose vaginal estrogen (dosages of estradiol <25 mcg twice weekly) with their health care provider",
+    "recommendation":"Avoid oral and topical patch. Vaginal cream or tablets: acceptable to use low-dose intravaginal estrogen for management of dyspareunia, lower urinary tract infections, and other vaginal symptoms",
+    "quality-of-evidence":"Oral and patch: high. Vaginal cream or tablets: moderate.",
+    "strength-of-recommendation":"Oral and patch: strong. Topical vaginal cream or tablets: weak",
+    "evidence":"2015 Criteria: Chlebowski 2013, Nelson 2012, Manson 2013, Majoribanks 2012, Oskarsson 2014. From previous criteria: Bath 2005, Cho 2005, Epp 2010, Hendrix 2005, Perrotta 2008, Sare 2008"
+  },
+  {
+    "category-drugs":"Growth hormone",
+    "organ-system":"Endocrine",
+    "rationale":"Impact on body composition is small and associated with edema, arthralgia, carpal tunnel syndrome, gynecomastia, impaired fasting glucose",
+    "recommendation":"Avoid, except as hormone replacement following pituitary gland removal",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Liu 2007"
+  },
+  {
+    "category-drugs":"Insulin, sliding scale",
+    "organ-system":"Endocrine",
+    "rationale":"Higher risk of hypoglycemia without improvement in hyperglycemia management regardless of care setting; refers to sole use of short- or rapid-acting insulins to manage or avoid hyperglycemia in absence of basal or long-acting insulin; does not apply to titration of basal insulin or use of additional short- or rapid-acting insulin in conjunction with scheduled insulin (ie, “correction insulin”)",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: AGS ADA 2012, ADA Diabetes Care 2014, Pandya 2013. From previous criteria: Queale 1997"
+  },
+  {
+    "category-drugs":"Megestrol",
+    "organ-system":"Endocrine",
+    "rationale":"Minimal effect on weight; increases risk of thrombotic events and possibly death in older adults",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Ruiz Garcia 2013. From previous criteria: Bodenner 2007, Reuben 2005, Simmons 2005, Yeh 2000."
+  },
+  {
+    "category-drugs":"Sulfonylureas, long-duration Chlorpropamide, Glyburide",
+    "organ-system":"Endocrine",
+    "rationale":"Chlorpropamide: prolonged half-life in older adults; can cause prolonged hypoglycemia; causes SIADH. Glyburide: higher risk of severe prolonged hypoglycemia in older adults",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Clarke 1975, Gangji 2007, Shorr 1996"
+  },
+  {
+    "category-drugs":"Metoclopramide",
+    "organ-system":"Gastrointestinal",
+    "rationale":"Can cause extrapyramidal effects, including tardive dyskinesia; risk may be greater in frail older adults",
+    "recommendation":"Avoid, unless for gastroparesis",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Bateman 1985, Ganzini 1993, Miller 1989"
+  },
+  {
+    "category-drugs":"Mineral oil, given orally",
+    "organ-system":"Gastrointestinal",
+    "rationale":"Potential for aspiration and adverse effects; safer alternatives available",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"Marchiori 2010a, Marchiori 2010b, Meltzer 2006, Simmons 2007"
+  },
+  {
+    "category-drugs":"Proton-pump inhibitors",
+    "organ-system":"Gastrointestinal",
+    "rationale":"Risk of C difficile infection and bone loss and fractures",
+    "recommendation":"Avoid scheduled use for >8 weeks unless for high-risk patients (e.g., oral corticosteroids or chronic NSAID use), erosive esophagitis, Barrett’s esophagitis, pathological hypersecretory condition, or demonstrated need for maintenance treatment (e.g., due to failure of drug discontinuation trial or H\u0027 blockers)",
+    "quality-of-evidence":"High",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Deshpande 2012, Janarthanan 2012, Adams 2014, Maggio 2013, Fraser 2013, Targownik 2012, Yu 2011 (MASR), Targownik 2010 (Neg. Study), Cea Soriano 2014, Ding 2014, Abrahamsen 2013, Lee 2013, Cea Soriano 2013, Khalili 2012, Ye 2011 (MASR), Ngamruengphong 2011, Eom 2011, Pouwels 2011, Prieto-Alhambra 2014, Chiu 2010, Teramura-Gronblad 2010"
+  },
+  {
+    "category-drugs":"Meperidine",
+    "organ-system":"Pain medications",
+    "rationale":"Not effective oral analgesic in dosages commonly used; may have higher risk of neurotoxicity, including delirium, than other opioids; safer alternatives available",
+    "recommendation":"Avoid, especially in those with chronic kidney disease",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Marcantonio 1994b, Kaiko 1983, Szeto 1977. From previous criteria: Kaiko 1982, Szeto 1977, Meperidine package insert"
+  },
+  {
+    "category-drugs":"Non-cyclooxygenase-selective NSAIDs, oral: Aspirin >325 mg/d, Diclofenac, Diflunisal, Etodolac, Fenoprofen, Ibuprofen, Ketoprofen, Meclofenamate, Mefenamic acid, Meloxicam, Nabumetone, Naproxen, Oxaprozin, Piroxicam, Sulindac, Tolmetin",
+    "organ-system":"Pain medications",
+    "rationale":"Increased risk of gastrointestinal bleeding or peptic ulcer disease in high-risk groups, including those aged >75 or taking oral or parenteral corticosteroids, anticoagulants, or antiplatelet agents; use of proton-pump inhibitor or misoprostol reduces but does not eliminate risk. Upper gastrointestinal ulcers, gross bleeding, or perforation caused by NSAIDs occur in approximately 1% of patients treated for 3–6 months and in ~2–4% of patients treated for 1 year; these trends continue with longer duration of use",
+    "recommendation":"Avoid chronic use, unless other alternatives are not effective and patient can take gastroprotective agent (proton-pump inhibitor or misoprostol)",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Derry 2012, Medlock 2013, O\u0027Neil 2012, Roth 2012. From previous criteria: AGS Pain Guideline 2009, Langman 1994, Lanas 2006, LLorente Molero 2002, Pilotto 2003, Piper 1991"
+  },
+  {
+    "category-drugs":"Indomethacin Ketorolac, includes parenteral",
+    "organ-system":"Pain medications",
+    "rationale":"Indomethacin is more likely than other NSAIDs to have adverse CNS effects. Of all the NSAIDs, indomethacin has the most adverse effects. Increased risk of gastrointestinal bleeding/peptic ulcer disease, and acute kidney injury in older adults.",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Strom 1996, Ketorolac package insert. From previous criteria: Onder 2004, Lanas 2006, Llorente Melero 2002"
+  },
+  {
+    "category-drugs":"Pentazocine",
+    "organ-system":"Pain medications",
+    "rationale":"Opioid analgesic that causes CNS adverse effects, including confusion and hallucinations, more commonly than other opioid analgesic drugs; is also a mixed agonist and antagonist; safer alternatives available",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Low",
+    "strength-of-recommendation":"Strong",
+    "evidence":"AGS Pain Guideline 2009, Pentazocine package insert"
+  },
+  {
+    "category-drugs":"Skeletal muscle relaxants: Carisoprodol, Chlorzoxazone, Cyclobenzaprine, Metaxalone, Methocarbamol, Orphenadrine",
+    "organ-system":"Pain medications",
+    "rationale":"Most muscle relaxants poorly tolerated by older adults because some have anticholinergic adverse effects, sedation, increased risk of fractures; effectiveness at dosages tolerated by older adults questionable",
+    "recommendation":"Avoid",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Richards 2012, Spence 2013. From previous criteria: Billups 2011, Rudolph 2008."
+  },
+  {
+    "category-drugs":"Desmopressin",
+    "organ-system":"Genitourinary",
+    "rationale":"High risk of hyponatremia; safer alternative treatments",
+    "recommendation":"Avoid for treatment of nocturia or nocturnal polyuria",
+    "quality-of-evidence":"Moderate",
+    "strength-of-recommendation":"Strong",
+    "evidence":"2015 Criteria: Juul 2011, Sand 2013, Weiss 2013, Rembratt 2006, Weatherall 2004"
+  }
+]
