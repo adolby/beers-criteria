@@ -86,6 +86,7 @@ cljs.core.cst$kw$patch = new cljs.core.Keyword(null,"patch","patch",380775109);
 cljs.core.cst$sym$comp = new cljs.core.Symbol(null,"comp","comp",-1462482139,null);
 cljs.core.cst$sym$dispatch_DASH_fn = new cljs.core.Symbol(null,"dispatch-fn","dispatch-fn",-1401088155,null);
 cljs.core.cst$sym$IReactiveAtom = new cljs.core.Symbol(null,"IReactiveAtom","IReactiveAtom",-991158427,null);
+cljs.core.cst$kw$placeholder = new cljs.core.Keyword(null,"placeholder","placeholder",-104873083);
 cljs.core.cst$sym$buffer = new cljs.core.Symbol(null,"buffer","buffer",-2037140571,null);
 cljs.core.cst$kw$cljs$core$async_SLASH_nothing = new cljs.core.Keyword("cljs.core.async","nothing","cljs.core.async/nothing",-69252123);
 cljs.core.cst$kw$postgresql = new cljs.core.Keyword(null,"postgresql","postgresql",-1568339962);
