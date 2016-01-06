@@ -72,7 +72,8 @@
   (let [out (chan)]
     (go (while true
       (let [[url search-text] (<! in)
-            response (<! (http/get url {:query-params {"q" search-text}}))]
+            response (<! (http/get url {:query-params
+                                         {"q" (str "category-drugs:" search-text)}}))]
         (>! out (vector search-text response)))))
     out))
 
