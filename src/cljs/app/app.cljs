@@ -23,7 +23,8 @@
   (swap! state assoc :results results))
 
 (defn update-cache [key new-results]
-  (swap! state assoc-in [:cache key] new-results))
+  (if (seq new-results)
+    (swap! state assoc-in [:cache key] new-results)))
 
 (defn load-all-results [url]
   (go
