@@ -105,6 +105,11 @@ nav ul li:last-of-type a {
 }
 
 /* Images */
+.busy-indicator {
+  display: block;
+  margin: 0 auto;
+}
+
 .responsive-image {
   max-width: 100%;
   height: auto;

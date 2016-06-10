@@ -1,6 +1,7 @@
 (ns app.app
   (:require [goog.events :as events]
             [goog.dom :as dom]
+            [goog.style :as style]
             [clojure.string :as string :refer [blank?]]
             [cljs.core.async :refer [<! >! put! close! chan
                                      timeout sliding-buffer]]
@@ -73,8 +74,9 @@
   (let [out (chan)]
     (go (while true
       (let [[url search-text] (<! in)
-            response (<! (http/get url {:query-params
-                                         {"q" (str "category-drugs:" search-text)}}))]
+            response
+              (<! (http/get url {:query-params
+                                  {"q" (str "category-drugs:" search-text)}}))]
         (>! out (vector search-text response)))))
     out))
 
@@ -98,7 +100,8 @@
   (go (while true
     (let [[search-text query-results] (<! in)]
       (update-cache search-text query-results)
-      (update-results query-results)))))
+      (update-results query-results)
+      (style/setElementShown (dom/getElementByClass "busy-indicator") false)))))
 
 ; Query process pipeline entry point
 ; Sliding buffer is used to complete throttling
@@ -138,9 +141,12 @@
           (update-results (:all-results @state))
           (if (contains? cache query-text)
             (put! cache-chan query-text)
-            (put! query-chan (vector query-url query-text)))))))))
+            (let [busy-indicator (dom/getElementByClass "busy-indicator")]
+              (style/setElementShown busy-indicator true)
+              (put! query-chan (vector query-url query-text))))))))))
 
 (defn init []
+  (style/setElementShown (dom/getElementByClass "busy-indicator") false)
   (load-all-results all-results-url)
   (reagent/render-component [page] (.-body js/document))
   (listen-search-input))
