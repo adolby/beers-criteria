@@ -18,31 +18,14 @@
  '[adzerk.boot-reload :refer [reload]]
  '[pandeiro.boot-http :refer [serve]])
 
-(deftask build []
-  (cljs))
-
-(deftask run []
+(deftask dev []
   (comp (serve)
         (watch)
-        (reload)
         (speak)
-        (build)))
+        (reload)
+        (cljs :optimizations :none :source-map true)
+        (target)))
 
-(deftask production []
-  (task-options! cljs {:optimizations :advanced})
-   identity)
-
-(deftask development []
-  (task-options! cljs {:optimizations :none
-                       :unified-mode true
-                       :source-map true}
-                 reload {:on-jsload 'app.app/init})
-   identity)
-
-(deftask dev []
-  (comp (development)
-        (run)))
-
-(deftask produce []
-  (comp (production)
-        (build)))
+(deftask prod []
+  (comp (cljs :optimizations :advanced)
+        (target)))
