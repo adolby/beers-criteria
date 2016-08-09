@@ -93,7 +93,7 @@ nav ul a, nav ul span {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: 1px solid black;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: 2rem;
+  font-size: 3rem;
 }
 
 nav a {
@@ -201,6 +201,10 @@ nav ul li:last-of-type a {
 @media all and (min-width: 75rem) {
   nav ul {
     justify-content: flex-end;
+  }
+
+  nav ul a, nav ul span {
+    font-size: 2rem;
   }
 
   nav ul li {
