@@ -1,2 +1,2 @@
 {:require  [app.core]
- :init-fns [app.core/init]}
+ :init-fns [app.core/main]}

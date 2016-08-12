@@ -6,8 +6,9 @@
    [org.clojure/clojurescript "1.9.36"]
    [org.clojure/core.async "0.2.385"]
    [cljs-http "0.1.41"]
-   [reagent "0.5.1"]
-   [kioo "0.4.2"]
+   [reagent "0.6.0-rc"]
+   [re-frame "0.8.0-alpha10"]
+   [cljsjs/fuse "2.2.0-0"]
    [com.taoensso/timbre "4.7.0"]
 
    [adzerk/boot-cljs "1.7.228-1" :scope "test"]

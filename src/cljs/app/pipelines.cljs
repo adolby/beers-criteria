@@ -1,10 +1,9 @@
 (ns app.pipelines
   (:require [cljs.core.async :refer [<! >! put! close! chan
                                      timeout sliding-buffer]]
-            [cljs-http.client :as http])
+            [re-frame.core :refer [dispatch]]
+            [taoensso.timbre :as timbre :refer-macros [info]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
-
-;; Query pipeline
 
 (defn throttle
   "Throttle input"
@@ -16,38 +15,15 @@
         (<! (timeout ms-delay))))
     out))
 
-(defn get-results
-  "Get results from search library"
+(defn send-results
+  "Send latest results to event processor"
   [in]
-  (let [out (chan)]
-    (go
-      (while true
-        (let [[url search-text] (<! in)
-              response
-              (<! (http/get url {:query-params
-                                 {"q" (str "category-drugs:"
-                                           search-text)}}))]
-          (>! out (vector search-text response)))))
-    out))
+  (go
+    (while true
+      (let [text (<! in)]
+        (dispatch [:search-results text])))))
 
-(defn extract-hits
-  "Extract the hits from search library response"
-  [in]
-  (let [out (chan)]
-    (go
-      (while true
-        (let [[search-text mid-results] (<! in)
-              output (get-in mid-results [:body :hits :hits])]
-          (>! out (vector search-text output)))))
-    out))
-
-(defn flatten-structure
-  "Flatten the search library response"
-  [in]
-  (let [out (chan)]
-    (go
-      (while true
-        (let [[search-text mid-results] (<! in)
-              output (vec (map #(:_source %) mid-results))]
-          (>! out (vector search-text output)))))
-    out))
+;; Pipeline
+(def input-chan (chan (sliding-buffer 1)))
+(def throttled-chan (throttle input-chan 200))
+(send-results throttled-chan)

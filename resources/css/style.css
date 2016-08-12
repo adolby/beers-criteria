@@ -195,16 +195,17 @@ nav ul li:last-of-type a {
     margin: 0.1rem;
     padding: 0.1rem;
   }
+
+  .row {
+    display: flex;
+    flex-flow: row wrap;
+  }
 }
 
 /* Laptop / Desktop */
 @media all and (min-width: 75rem) {
-  nav ul {
+  /*nav ul {
     justify-content: flex-end;
-  }
-
-  nav ul a, nav ul span {
-    font-size: 2rem;
   }
 
   nav ul li {
@@ -214,10 +215,5 @@ nav ul li:last-of-type a {
   nav ul .brand {
     margin-left: 3rem;
     flex-grow: 1;
-  }
-
-  .row {
-    display: flex;
-    flex-flow: row wrap;
-  }
+  }*/
 }
