@@ -7,7 +7,7 @@
    [org.clojure/core.async "0.2.385"]
    [cljs-http "0.1.41"]
    [reagent "0.6.0-rc"]
-   [re-frame "0.8.0-alpha10"]
+   [re-frame "0.8.0-alpha11"]
    [cljsjs/fuse "2.2.0-0"]
    [com.taoensso/timbre "4.7.0"]
 
