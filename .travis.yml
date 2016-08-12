@@ -1,0 +1,28 @@
+language: clojure
+jdk:
+- oraclejdk8
+install:
+- wget -O boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh
+- chmod 755 boot
+- ./boot -u
+- ./boot -V
+script:
+- ./boot prod
+after_success:
+- if [ "$TRAVIS_BRANCH" != "master" ] then exit 0 fi
+- rm -rf .git
+- cd target
+- rm -rf app.cljs.edn
+- git init
+- git config user.name "Travis CI"
+- git config user.email "andrewdolby@gmail.com"
+- git config --global push.default simple
+- git remote add upstream "https://${GH_TOKEN}@${GH_REF}"
+- touch .
+- git add -A .
+- git commit -m "Deploy to GitHub Pages - ${TRAVIS_COMMIT}"
+- git push --force upstream master:gh-pages >/dev/null 2>&1
+env:
+  global:
+  - GH_REF: github.com/adolby/beers-criteria.git
+  - secure: fb5H/gY3gBWSEUbsQQ0oivWZ4O+dSMtN/zXbRqznc3ySvUsTV/W7F96GqnNqgM8j56H+AEhcM59A6JfGGNlo1xKaPzG7TvKAt9gruLgEUfhZDxnu628NCBxJ9vj0T2Xsn/7PNOPlPyJVwnXnQKzmCMc3LM9zpiJjzVLkUqfRWHE=
