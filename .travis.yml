@@ -3,13 +3,14 @@ jdk:
 - oraclejdk8
 install:
 - wget -O boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh
-- chmod 755 boot
+- chmod a+x boot
 - ./boot -u
 - ./boot -V
 script:
 - ./boot prod
 after_success:
-- bash . ./deploy.sh
+- chmod a+x deploy.sh
+- . ./deploy.sh
 env:
   global:
   - GH_REF: github.com/adolby/beers-criteria.git
