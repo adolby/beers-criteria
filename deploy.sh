@@ -16,10 +16,10 @@ git init
 git config user.name "Travis CI"
 git config user.email "andrewdolby@gmail.com"
 git config --global push.default simple
-git remote add upstream ${REPO_URL}
+git remote add upstream "https://${GH_TOKEN}@github.com/adolby/beers-criteria.git"
 
 touch .
 
 git add -A .
 git commit -m "Deploy to GitHub Pages - ${TRAVIS_COMMIT}"
-git push --force upstream master:gh-pages
+git push --force upstream master:gh-pages > /dev/null 2>&1
