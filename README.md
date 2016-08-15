@@ -2,7 +2,7 @@
 
 Search the Beers Criteria for Potentially Inappropriate Medication Use in Older Adults.
 
-**Demo:** https://adolby.github.io/beers-criteria
+**Try it:** https://adolby.github.io/beers-criteria
 
 ## Features
 1. Uses fuse.js to match search terms in the Beers Criteria.
