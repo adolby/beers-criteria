@@ -9,8 +9,9 @@ install:
 script:
 - ./boot prod
 after_success:
+- export REPO_URL="https://$GH_TOKEN@github.com/$GH_REPO.git"
 - chmod a+x deploy.sh
-- ./deploy.sh ${GH_TOKEN}
+- . ./deploy.sh
 env:
   global:
   - GH_REF: github.com/adolby/beers-criteria.git

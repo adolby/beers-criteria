@@ -16,7 +16,7 @@ git init
 git config user.name "Travis CI"
 git config user.email "andrewdolby@gmail.com"
 git config --global push.default simple
-git remote add upstream "https://$1@${GH_REF}"
+git remote add upstream ${REPO_URL}
 
 touch .
 
