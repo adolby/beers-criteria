@@ -6,13 +6,3 @@
   :results
   (fn [db _]
     (:results db)))
-
-(reg-sub
-  :cache
-  (fn [db _]
-    (:cache db)))
-
-(reg-sub
-  :criteria
-  (fn [db _]
-    (:criteria db)))
