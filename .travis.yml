@@ -13,10 +13,10 @@ install:
 - export PATH=~/bin:$PATH
 - curl -L https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh -o ~/bin/boot
 - chmod +x ~/bin/boot
-- ./boot -u
-- ./boot -V
+- boot -u
+- boot -V
 script:
-- ./boot prod
+- boot prod
 after_success:
 - chmod +x deploy.sh
 - ./deploy.sh
