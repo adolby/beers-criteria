@@ -36,7 +36,6 @@
     (go
       (let [data (:body (<! (http/get url)))
             criteria (data :criteria)]
-        (info criteria)
         (dispatch [:update-criteria criteria])
         (dispatch [:update-results criteria])))
     db))
