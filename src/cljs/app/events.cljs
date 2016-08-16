@@ -1,4 +1,5 @@
 (ns app.events
+  "Application re-frame events"
   (:require
     [clojure.string :as str]
     [cljs.spec :as s]

@@ -1,4 +1,5 @@
 (ns app.core
+  "Application core"
   (:require [re-frame.core :refer [dispatch dispatch-sync]]
             [app.views :as views]
             [app.events :as events]

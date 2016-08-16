@@ -1,4 +1,5 @@
 (ns app.db
+  "Application re-frame database"
   (:require [cljs.reader]
             [cljs.spec :as s]))
 

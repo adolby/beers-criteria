@@ -1,4 +1,5 @@
 (ns app.views
+  "Application views implemented with Reagent"
   (:require [goog.events :as event]
             [goog.dom :refer [getElementByClass]]
             [goog.style :as style]

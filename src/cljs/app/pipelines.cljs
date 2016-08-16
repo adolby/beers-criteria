@@ -1,4 +1,6 @@
 (ns app.pipelines
+  "Application go routine pipelines, currently only for throttling
+   user text input."
   (:require [cljs.core.async :refer [<! >! put! close! chan
                                      timeout sliding-buffer]]
             [re-frame.core :refer [dispatch]]
