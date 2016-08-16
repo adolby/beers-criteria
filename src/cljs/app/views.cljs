@@ -23,6 +23,7 @@
     out))
 
 (defn listen-search-input
+  "Listen to search input and output its value to the search pipeline"
   []
   (let [input (listen (search-field) "keyup")]
     (go
@@ -40,7 +41,8 @@
    :strength-of-recommendation "Strength of Recommendation"
    :evidence "Evidence"})
 
-(defn page
+(defn result-cards
+  "Render the results to card form with Reagent"
   []
   (let [results (subscribe [:results])]
     (fn []
@@ -53,13 +55,14 @@
                 (fn [row-idx [label value]]
                   [:ul.row
                     {:key (str "card-" card-idx "-row-" row-idx)}
-                    [:li (labels label)]
+                    [:li (get labels label)]
                     [:li value]])
                 result)])
           @results)])))
 
-(defn render-page
+(defn render-results
+  "Entry point for Reagent"
   []
   (reagent/render-component
-    [page]
+    [result-cards]
     (.getElementById js/document "results")))
