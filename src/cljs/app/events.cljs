@@ -27,19 +27,21 @@
   (fn [_ _]
     default-value))
 
+;; Load criteria from file and intialize criteria and results on
+;; startup
 (reg-event-db
   :load-criteria
   check-spec-interceptor
   (fn [db [_ url]]
     (go
       (let [data (:body (<! (http/get url)))
-            criteria (:criteria data)
-            meta-data (:meta-data data)]
-        (dispatch [:update-meta-data meta-data])
+            criteria (data :criteria)]
+        (info criteria)
         (dispatch [:update-criteria criteria])
         (dispatch [:update-results criteria])))
     db))
 
+;; Update criteria in the DB and send signal to update Fuse object
 (reg-event-db
   :update-criteria
   [check-spec-interceptor (path :criteria) trim-v]
@@ -47,32 +49,25 @@
     (dispatch [:update-fuse])
     new-criteria))
 
+;; Update results in the DB
 (reg-event-db
   :update-results
   [check-spec-interceptor (path :results) trim-v]
   (fn [_ [new-results]]
-    new-results))
+    (let [filtered-results
+          (mapv
+            (fn [result]
+              (dissoc result :category :drugs))
+            new-results)]
+      filtered-results)))
 
-(reg-event-db
-  :update-meta-data
-  [check-spec-interceptor (path :meta-data) trim-v]
-  (fn [_ [new-meta-data]]
-    new-meta-data))
-
+;; Update Fuse.js object in the DB
 (reg-event-db
   :update-fuse
   [check-spec-interceptor]
   (fn [db [_ _]]
     (let [criteria (db :criteria)
-          meta-data (db :meta-data)
-          search-dict
-          (mapv
-            (fn [criterion meta-datum]
-              (merge criterion
-                     meta-datum))
-            criteria
-            meta-data)
-          dictionary (clj->js search-dict)
+          dictionary (clj->js criteria)
           options (clj->js
                     {:keys [{:name "drugs" :weight 0.7}
                             {:name "category" :weight 0.2}
@@ -80,6 +75,7 @@
           fuse (js/Fuse. dictionary options)]
       (assoc db :fuse fuse))))
 
+;; Do the term search with Fuse.js and store results in the DB
 (reg-event-db
   :search-results
   [check-spec-interceptor]
@@ -88,12 +84,7 @@
       (if (str/blank? match-text)
         (dispatch [:update-results criteria])
         (let [fuse (db :fuse)
-              search-results (js->clj (.search fuse match-text)
-                                      :keywordize-keys true)
-              results
-              (mapv
-                (fn [search-result]
-                  (dissoc search-result :category :drugs))
-                search-results)]
+              results (js->clj (.search fuse match-text)
+                               :keywordize-keys true)]
           (dispatch [:update-results results]))))
     db))
