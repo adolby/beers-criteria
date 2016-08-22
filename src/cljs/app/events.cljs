@@ -69,24 +69,18 @@
                 :fuse fuse
                 :results (filter-results criteria)))))
 
-;; Update results in the DB
-(reg-event-db
-  :update-results
-  [check-spec-interceptor (path :results) trim-v]
-  (fn [_ [new-results]]
-    (filter-results new-results)))
-
 ;; Do the term search with Fuse.js and store results in the DB
-(reg-event-fx
+(reg-event-db
   :search-results
-  (fn [{:keys [db]} [_ match-text]]
-    {:dispatch
-      [:update-results
-        (if (str/blank? match-text)
-          (let [criteria (:criteria db)]
-            criteria)
-          (let [fuse (:fuse db)
-                result (js->clj
-                         (.search fuse match-text)
-                         :keywordize-keys true)]
-            result))]}))
+  check-spec-interceptor
+  (fn [db [_ match-text]]
+    (let [search-results
+          (if (str/blank? match-text)
+            (let [criteria (:criteria db)]
+              criteria)
+            (let [fuse (:fuse db)
+                  results (js->clj
+                            (.search fuse match-text)
+                            :keywordize-keys true)]
+              results))]
+      (assoc db :results (filter-results search-results)))))
