@@ -5,12 +5,11 @@
             [app.events :as events]
             [app.subs :as subs]))
 
-(def criteria-url "data/beers-2015-metadata-merged.json")
-
 (defn ^:export main
   "Application entry point"
   []
   (dispatch-sync [:initialize-db])
+  (let [criteria-url "data/beers-2015-metadata-merged.json"]
+    (dispatch [:load-criteria criteria-url]))
   (views/render-results)
-  (dispatch [:load-criteria criteria-url])
   (views/listen-search-input))
