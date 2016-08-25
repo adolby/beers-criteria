@@ -2,7 +2,6 @@
   "Application views implemented with Reagent"
   (:require [goog.events :as event]
             [goog.dom :refer [getElementByClass]]
-            [goog.style :as style]
             [clojure.string :as str :refer [blank?]]
             [cljs.core.async :refer [<! put! chan]]
             [reagent.core :as reagent]
