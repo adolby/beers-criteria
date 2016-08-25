@@ -105,11 +105,6 @@ nav ul li:last-of-type a {
 }
 
 /* Images */
-.busy-indicator {
-  display: block;
-  margin: 0 auto;
-}
-
 .responsive-image {
   max-width: 100%;
   height: auto;
@@ -200,20 +195,4 @@ nav ul li:last-of-type a {
     display: flex;
     flex-flow: row wrap;
   }
-}
-
-/* Laptop / Desktop */
-@media all and (min-width: 75rem) {
-  /*nav ul {
-    justify-content: flex-end;
-  }
-
-  nav ul li {
-    margin-right: 3rem;
-  }
-
-  nav ul .brand {
-    margin-left: 3rem;
-    flex-grow: 1;
-  }*/
 }
