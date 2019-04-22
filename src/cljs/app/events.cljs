@@ -2,7 +2,7 @@
   "Application re-frame events"
   (:require
     [clojure.string :as str]
-    [cljs.spec :as s]
+    [clojure.spec.alpha :as spec]
     [ajax.core :as ajax]
     [re-frame.core
       :refer [reg-event-db reg-event-fx path trim-v after
@@ -18,9 +18,9 @@
 (defn check-and-throw
   "Throw an exception if db doesn't match the spec"
   [a-spec db]
-  (when-not (s/valid? a-spec db)
+  (when-not (spec/valid? a-spec db)
     (throw (ex-info "spec check failed: "
-             {:problems (s/explain-str a-spec db)}))))
+             {:problems (spec/explain-str a-spec db)}))))
 
 (def check-spec-interceptor
   (after (partial check-and-throw :app.db/db)))

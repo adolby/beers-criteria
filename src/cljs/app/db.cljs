@@ -1,9 +1,9 @@
 (ns app.db
   "Application re-frame database"
   (:require [cljs.reader]
-            [cljs.spec :as s]))
+            [clojure.spec.alpha :as spec]))
 
-(s/def ::db (s/keys :req-un [::results ::criteria ::fuse]))
+(spec/def ::db (spec/keys :req-un [::results ::criteria ::fuse]))
 
 (def default-value
   {:results {}
